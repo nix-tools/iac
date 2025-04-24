@@ -17,3 +17,16 @@ resource "github_organization_settings" "org_settings" {
   members_can_create_private_pages = false
   members_can_create_public_pages  = false
 }
+
+resource "github_actions_organization_permissions" "org_actions_perms" {
+  allowed_actions = "selected" # "all", "local_only"
+  enabled_repositories = "all" # "none", "selected"
+  allowed_actions_config {
+    github_owned_allowed = true # Made by GitHub
+    verified_allowed     = false # Verified in GitHub Marketplace
+    patterns_allowed     = ["actions/cache@*", "actions/checkout@*"]
+  }
+  # enabled_repositories_config {
+  #   repository_ids = [github_repository.repo_website.repo_id]
+  # }
+}
