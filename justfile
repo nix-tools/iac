@@ -1,16 +1,21 @@
+TF := 'tofu' # 'terraform'
 VARFILE := 'api-keys.tfvars'
 
 _list:
   @just --list
 
+# Initializes terraform/opentofu (downloads providers)
+init:
+  {{TF}} init
+
 plan:
-  terraform plan -var-file '{{ VARFILE }}'
+  {{TF}} plan -var-file '{{VARFILE}}'
 
 apply:
-  terraform apply -var-file '{{ VARFILE }}'
+  {{TF}} apply -var-file '{{VARFILE}}'
 
 import-repo RESOURCE_NAME='repo_foo' REPO_NAME='org-name/repo-name':
-  terraform import -var-file '{{ VARFILE }}' github_repository.{{ RESOURCE_NAME }} {{ REPO_NAME }}
+  {{TF}} import -var-file '{{VARFILE}}' github_repository.{{RESOURCE_NAME}} {{REPO_NAME}}
 
 fmt:
-  terraform fmt -list -recursive
+  {{TF}} fmt -list -recursive
